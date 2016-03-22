@@ -26,7 +26,7 @@ public class NewFileListener implements ActionListener {
                 int opc = JOptionPane.showConfirmDialog(null, "Do You Wish To Save The Current Changes?");
                 if(opc == JOptionPane.YES_OPTION){
 	                try{
-	                    // Fsave.show();
+	                    Fsave.setVisible(true);
 	                    if (Fsave.getFile()==null) 
 	                        return;
 	                    String nome = Fsave.getDirectory() + Fsave.getFile();

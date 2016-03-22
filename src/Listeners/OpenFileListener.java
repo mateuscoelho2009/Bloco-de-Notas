@@ -31,10 +31,10 @@ public class OpenFileListener implements ActionListener {
         }
         try{
              RandomAccessFile file = new RandomAccessFile(f,"rw");
-             String linha = "";
+             String line = "";
              StringBuffer sTxt = new StringBuffer();
-             while((linha = file.readLine()) != null) {
-                 sTxt.append(linha + "\n");
+             while((line = file.readLine()) != null) {
+                 sTxt.append(line + "\n");
              }
              textArea.setText(sTxt.toString());
              file.seek(0);

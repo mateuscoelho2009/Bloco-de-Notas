@@ -1,11 +1,7 @@
 import java.awt.Container;
-
 import java.awt.FileDialog;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.TextArea;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 
 import javax.swing.*;
@@ -17,7 +13,7 @@ public class BlockGUI extends JFrame {
 	final int HEIGHT = 600,
 			  WIDTH = 800;
 	
-	private boolean wasSaved;
+	// private boolean wasSaved;
 	private JTextArea textArea;
     private JMenu archive,
     			  help,
@@ -53,7 +49,7 @@ public class BlockGUI extends JFrame {
 	private void initBlockGUI() {
 		textArea = new JTextArea();
 		
-		wasSaved = false;
+		// wasSaved = false;
 		
 		Container c = new Container();
         c.setLayout(new FlowLayout());
@@ -76,7 +72,7 @@ public class BlockGUI extends JFrame {
 	public void Run () {
 		add (textArea);		
 		
-		// Archive
+		// Archive - adding options
 		archive.add(open);
         archive.add(save);
         archive.add(newFile);
@@ -87,7 +83,8 @@ public class BlockGUI extends JFrame {
         archive.add(quit);
         quit.setMnemonic('Q');
 
-        quit.addActionListener (new QuitListener());
+        // Adding action Listeners
+        quit.addActionListener (new QuitListener(textArea, Fsave));
         newFile.addActionListener(new NewFileListener(textArea, Fsave));
         open.addActionListener(new OpenFileListener(textArea, f));         
         save.addActionListener(new SaveFileListener(textArea, Fsave));
@@ -99,6 +96,7 @@ public class BlockGUI extends JFrame {
         help.setMnemonic('H');
         
         show = new JMenuItem("Show Help");
+        show.addActionListener(new HelpListener(textArea)); // This Action Listener does nothing
         about = new JMenuItem("About Bloco de Notas ITA");
         
         help.add(show);
