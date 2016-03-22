@@ -21,11 +21,13 @@ public class SaveFileListener implements ActionListener {
 	
 	public void actionPerformed(ActionEvent e){           
         try{
-            // Fsave.show();
-            if (Fsave.getFile()==null) 
+            Fsave.setVisible(true);
+            if (Fsave.getFile() == null)
                 return;
-            String nome = Fsave.getDirectory() + Fsave.getFile();
+            // Salvando em .txt
+            String nome = Fsave.getDirectory() + Fsave.getFile() + ".txt";
             FileWriter out = new FileWriter(nome);
+            
             out.write(textArea.getText());
             out.close();
         }	catch(java.io.IOException exc) {
