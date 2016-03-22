@@ -1,4 +1,5 @@
 import java.awt.Container;
+
 import java.awt.FileDialog;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -8,6 +9,8 @@ import java.awt.event.ActionListener;
 import java.io.*;
 
 import javax.swing.*;
+
+import Listeners.*;
 
 public class BlockGUI extends JFrame {
 	// Attributes	
@@ -82,9 +85,9 @@ public class BlockGUI extends JFrame {
         quit.setMnemonic('Q');
 
         quit.addActionListener (new QuitListener());
-        newFile.addActionListener(new NewFileListener(textArea));
-        open.addActionListener(new OpenFileListener());         
-        save.addActionListener(new SaveFileListener());
+        newFile.addActionListener(new NewFileListener(textArea, Fsave));
+        open.addActionListener(new OpenFileListener(textArea, f));         
+        save.addActionListener(new SaveFileListener(textArea, Fsave));
         
         // Help
         help = new JMenu("Help");
@@ -162,154 +165,5 @@ public class BlockGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(WIDTH, HEIGHT);
         setVisible(true);
-	}
-	
-	/*
-	 * Internal ActionListeners Classes
-	 */
-	class QuitListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e){
-            System.exit(0);
-        }
-	}
-	
-	class NewFileListener implements ActionListener {
-		JTextArea textArea;
-		
-		public NewFileListener(JTextArea textArea) {
-			super();
-			
-			this.textArea = textArea;
-		}
-		
-		@Override
-		public void actionPerformed(ActionEvent e){
-	            if (textArea.getText() != null){
-	                int opc = JOptionPane.showConfirmDialog(null, "Do You Wish To Save The Current Changes?");
-	                if(opc == JOptionPane.YES_OPTION){
-		                try{
-		                    // Fsave.show();
-		                    if (Fsave.getFile()==null) 
-		                        return;
-		                    String nome = Fsave.getDirectory()+Fsave.getFile();
-		                    
-		                    FileWriter out = new FileWriter(nome);
-		                    
-		                    out.write(textArea.getText());
-		                    out.close();
-		                }	catch(java.io.IOException exc) {
-		                	  
-		                } 
-	                }
-	                if (opc == JOptionPane.NO_OPTION)
-	                    textArea.setText(null);            
-	            }
-          }
-	}
-	
-	// TODO: From this part on..
-	// TODO: Take these classes out of here.
-	class OpenFileListener implements ActionListener {
-		public void actionPerformed(ActionEvent e){ 
-            JFileChooser chooser = new JFileChooser();
-            int returnVal = chooser.showOpenDialog(null);
-            
-            if(returnVal == JFileChooser.APPROVE_OPTION) {
-                f = chooser.getSelectedFile();
-            }
-            try{
-                 RandomAccessFile file = new RandomAccessFile(f,"rw");
-                 String linha = "";
-                 StringBuffer sTxt = new StringBuffer();
-                 while((linha = file.readLine()) != null) {
-                     sTxt.append(linha + "\n");
-                 }
-                 textArea.setText(sTxt.toString());
-                 file.seek(0);
-            }	catch(FileNotFoundException ex) {
-            	
-            }
-             	catch(IOException ex){}    
-            }
-	}
-	
-	class SaveFileListener implements ActionListener {
-		public void actionPerformed(ActionEvent e){           
-            try{
-                // Fsave.show();
-                if (Fsave.getFile()==null) 
-                    return;
-                String nome = Fsave.getDirectory()+Fsave.getFile();
-                FileWriter out = new FileWriter(nome);
-                out.write(textArea.getText());
-                out.close();
-            }	catch(java.io.IOException exc) {
-            	
-            }
-        }
-	}
-	
-	class FontTypeListener implements ActionListener {
-
-	    private JTextArea textArea;
-
-	    public FontTypeListener(JTextArea textArea){
-	        this.textArea = textArea;
-	    }
-
-	    public void actionPerformed(ActionEvent e){
-	        JRadioButtonMenuItem button_ = (JRadioButtonMenuItem) e.getSource();
-	        
-	        Font font_ = textArea.getFont();
-
-	        textArea.setFont(new Font(button_.getText(), font_.getStyle(), font_.getSize()));
-	    }
-	}
-	
-	class FontStyleListener implements ActionListener {
-		private JTextArea textArea;
-
-	    public FontStyleListener(JTextArea textArea){
-	        this.textArea = textArea;
-	    }
-	    
-	    public void actionPerformed(ActionEvent e){
-	        JRadioButtonMenuItem button = (JRadioButtonMenuItem) e.getSource();
-	        
-	        Font font_ = textArea.getFont();
-	        
-	        if (button.getText().equals("Bold")) {
-	        	textArea.setFont(new Font(font_.getFontName(), Font.BOLD, font_.getSize()));
-	        }
-	        else if (button.getText().equals("Italic")) {
-	        	textArea.setFont(new Font(font_.getFontName(), Font.ITALIC, font_.getSize()));
-	        }
-	        else if (button.getText().equals("Bold/Italic")) {
-	        	textArea.setFont(new Font(font_.getFontName(), Font.BOLD + Font.ITALIC, font_.getSize()));
-	        }
-	        else {
-	        	textArea.setFont(new Font(font_.getFontName(), Font.PLAIN, font_.getSize()));
-	        }
-	    }
-	}
-	
-	class FontSizeListener implements ActionListener {
-
-	    private JTextArea textArea;
-
-	    public FontSizeListener(JTextArea textArea){
-	        this.textArea = textArea;
-	    }
-
-	    public void actionPerformed(ActionEvent e){
-	        JRadioButtonMenuItem button_ = (JRadioButtonMenuItem) e.getSource();
-	        
-	        Font font_ = textArea.getFont();
-
-	        textArea.setFont(new Font( font_.getFontName(),
-	        						   font_.getStyle(), 
-	        						   Integer.parseInt(button_.getText()) ));
-	    }
 	}
 }
