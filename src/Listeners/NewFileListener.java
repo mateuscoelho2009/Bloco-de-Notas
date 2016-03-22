@@ -22,7 +22,7 @@ public class NewFileListener implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent e){
-            if (textArea.getText() != null){
+           if (textArea.getText() != null){
                 int opc = JOptionPane.showConfirmDialog(null, "Do You Wish To Save The Current Changes?");
                 if(opc == JOptionPane.YES_OPTION){
 	                try{
@@ -41,6 +41,6 @@ public class NewFileListener implements ActionListener {
                 }
                 if (opc == JOptionPane.NO_OPTION)
                     textArea.setText(null);            
-            }
-      }
+           }
+     }
 }

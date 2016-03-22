@@ -24,6 +24,7 @@ public class SaveFileListener implements ActionListener {
             Fsave.setVisible(true);
             if (Fsave.getFile() == null)
                 return;
+            
             // Salvando em .txt
             String nome = Fsave.getDirectory() + Fsave.getFile() + ".txt";
             FileWriter out = new FileWriter(nome);

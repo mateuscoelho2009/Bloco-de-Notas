@@ -31,7 +31,8 @@ public class BlockGUI extends JFrame {
     				  quit,
     				  about,
     				  show,
-    				  saveAs;
+    				  saveAs,
+    				  print;
     private JRadioButtonMenuItem fonts[],
     							 styles[],
     							 sizes[];
@@ -65,7 +66,7 @@ public class BlockGUI extends JFrame {
         save = new JMenuItem("Save");
         saveAs = new JMenuItem("Save As...");
         saveAs.setMnemonic('S');
-        
+        print = new JMenuItem("Print");
         
         quit = new JMenuItem("Quit");
         
@@ -81,6 +82,8 @@ public class BlockGUI extends JFrame {
         archive.add(newFile);
         archive.add(saveAs);
         archive.addSeparator();
+        archive.add(print);
+        archive.addSeparator();
         archive.add(quit);
         quit.setMnemonic('Q');
 
@@ -88,6 +91,8 @@ public class BlockGUI extends JFrame {
         newFile.addActionListener(new NewFileListener(textArea, Fsave));
         open.addActionListener(new OpenFileListener(textArea, f));         
         save.addActionListener(new SaveFileListener(textArea, Fsave));
+        saveAs.addActionListener(new SaveFileListener(textArea, Fsave));
+        print.addActionListener(new PrintFileListener(textArea));
         
         // Help
         help = new JMenu("Help");
